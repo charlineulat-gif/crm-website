@@ -1,19 +1,20 @@
+const API_URL = "https://script.google.com/a/macros/hirefoxstaffing.com/s/AKfycbzPZiAgQ47H_eOu05vz8q42pUZtDWKWe7y8773ba-1qVAwLUOm7-FyCp8J0ru9elUvU/exec";
+
 async function loadDashboard() {
+  try {
+    const res = await fetch(API_URL + "?action=dashboard");
+    const data = await res.json();
 
-  const url = "YOUR_SCRIPT_URL?action=dashboard";
-
-  const response = await fetch(url);
-
-  const data = await response.json();
-
-  document.getElementById("output").innerHTML = `
-
-    <h3>CRM Dashboard</h3>
-
-    <p>Total Leads: ${data.totalLeads}</p>
-
-    <p>Interested: ${data.interested}</p>
-
-    <p>New Leads: ${data.newLeads}</p>
-  `;
+    document.getElementById("output").innerHTML = `
+      <h2>Dashboard</h2>
+      <p>Total Leads: ${data.totalLeads}</p>
+      <p>Interested: ${data.interested}</p>
+      <p>New Leads: ${data.newLeads}</p>
+    `;
+  } catch (err) {
+    document.getElementById("output").innerHTML = `
+      <p style="color:red;">Error loading data</p>
+    `;
+    console.error(err);
+  }
 }
